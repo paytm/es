@@ -19,11 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "commander": "~2.8.1",
-    "requestor": "git+ssh://git@paytm.unfuddle.com:paytm/requestor.git",
+    "request" : "*",
     "moment": "~2.10.2",
     "lodash": "~3.8.0",
-    "lgr": "git://github.com/paytm/lgr.git",
-    "rqueue": "git+ssh://git@paytm.unfuddle.com:paytm/rqueue.git",
     "q": "~1.4.1",
     "graceful-fs": "~4.1.2",
     "validator": "~4.0.6"
