@@ -12,13 +12,13 @@ describe("Es wrapper Creation Test Suite" ,function () {
   
     var query = {"query":{"filtered":{"query":{"match_all":{}},"filter":{"nested":{"path":"variants","filter":{"bool":{"must":[{"terms":{"variants.category_id":[5030]}}]}}}}}},"size":31,"from":0,"sort":[{"variants.price":{"mode":"min","order":"asc","ignore_unmapped":true}}],"aggs":{"primary_categories":{"terms":{"field":"primary_category_id","size":100,"min_doc_count":1}}}};
 
-    var cursorOpts = {
+    var esOpts = {
     };
 
     var esObject;
 
     try {
-      esObject = new es(cursorOpts);
+      esObject = new es(esOpts);
     } catch (e) {
       e.should.not.be.null;
     }
@@ -30,25 +30,17 @@ describe("Es wrapper Creation Test Suite" ,function () {
   
     var query = {"query":{"filtered":{"query":{"match_all":{}},"filter":{"nested":{"path":"variants","filter":{"bool":{"must":[{"terms":{"variants.category_id":[5030]}}]}}}}}},"size":31,"from":0,"sort":[{"variants.price":{"mode":"min","order":"asc","ignore_unmapped":true}}],"aggs":{"primary_categories":{"terms":{"field":"primary_category_id","size":100,"min_doc_count":1}}}};
 
-    var requestorOpts = {
-      maxSockets          : 100,
-      minSockets          : 10,
-      timeout             : 60000,
-      reHitTimedOut       : false,
-      maxPendingCount     : 10000,
-      debugLog            : false
-    };
 
-    var requestorObject = new requestor(requestorOpts);
-
-    var cursorOpts = {
-      host : "http://localhost:9200",
+    var esOpts = {
+      requestOpts : {
+        host : "http://localhost:9200"
+      }
     };
 
     var esObject;
 
     try {
-      esObject = new es(cursorOpts);
+      esObject = new es(esOpts);
     } catch (e) {
       e.should.be.null;
     }
@@ -63,14 +55,14 @@ describe("Es wrapper pagination Suite", function () {
   this.timeout(10000);
   
   var esOptions = {
-    host : "http://localhost:9200",
-    index : "catalog",
-    type : "refiner"
+    requestOpts : {
+      host : "http://localhost:9200"
+    }
   };
 
   var query = {"query":{"filtered":{"query":{"match_all":{}},"filter":{"nested":{"path":"variants","filter":{"bool":{"must":[{"terms":{"variants.category_id":[5030]}}]}}}}}},"size":31,"from":0,"sort":[{"variants.price":{"mode":"min","order":"asc","ignore_unmapped":true}}],"aggs":{"primary_categories":{"terms":{"field":"primary_category_id","size":100,"min_doc_count":1}}}};
 
-  var pageSize = 30;
+  var pageSize = 300;
   
   it("Should not paginate", function (done) {
     esObject = new es(esOptions);
@@ -83,10 +75,10 @@ describe("Es wrapper pagination Suite", function () {
     done();
     
   });
-  
+
   it("Should paginate", function (done) {
     esObject = new es(esOptions);
-    esObject.setQuery("catalog", "refiner", query);
+    esObject.setQuery("catalog/refiner/_search", query);
     esObject.setPageSize(pageSize);
 
     var hasMore = true;
