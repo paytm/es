@@ -161,17 +161,16 @@ describe("ES wrapper bulk index ", function () {
       done();
     }
 
-    for (var i = 0 ; i < 200000; i ++ ) {
+    for (var i = 0 ; i < 40; i ++ ) {
       data.push({
 	id : i,
 	message : Date.now()
       });
     }
 
-    esObject.bulkIndex("mocha_test", "mocha_type", data);
+    esObject.bulkIndex("mocha_test", "mocha_type", data, {operation: "update", upsert: true});
 
     esObject.on('error', handleError);
-
     esObject.on('done', proceedAhead);
 
   });
