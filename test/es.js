@@ -1,7 +1,7 @@
 "use strict";
 
 var should = require('should');
-var requestor = require('requestor');
+var request = require('request');
 
 var es = require('../');
 
@@ -48,7 +48,6 @@ describe("Es wrapper Creation Test Suite" ,function () {
   });
   
 });
-
 
 describe("Es wrapper pagination Suite", function () {
   var esObject;
@@ -101,6 +100,80 @@ describe("Es wrapper pagination Suite", function () {
     esObject.on('data', processData);
     esObject.on('error', handleError);
     esObject.on('end', proceedAhead);
+  });
+});
+
+describe("ES wrapper thread pool check", function () {
+  it("Should display the thread pool", function (done) {
+    var esObject = new es({
+      requestOpts : {
+	host : "http://localhost:9200"
+      }
+    });
+
+    esObject._getThreadPoolStatus()
+      .then(function (threadPool) {
+	threadPool.forEach(function (nodeStat) {
+          nodeStat.host.should.not.be.null;
+          nodeStat.queueCount.should.be.a.number;
+	});
+	done();
+      })
+      .fail(function (error) {
+	console.log(error);
+      });
+  });
+
+
+});
+
+
+describe("ES wrapper bulk index ", function () {
+  this.timeout(20000);
+  var index = "mocha_test";
+  after(function (done) {
+    var requestOpts = {
+      method : "DELETE",
+      url : "http://localhost:9200/" + index
+    };
+
+    request(requestOpts, function (error , response) {
+      console.log(error, response.body);
+      done();
+    });
+  });
+
+  it("Should bulk index", function (done) {
+    var esObject = new es({
+      requestOpts : {
+	host : "http://localhost:9200"
+      }
+    });
+
+    var data = [];
+
+    function handleError (error) {
+      console.log("Error occurred while bulk indexing" , error);
+    }
+
+    function proceedAhead() {
+      console.log("Its time .....");
+      done();
+    }
+
+    for (var i = 0 ; i < 200000; i ++ ) {
+      data.push({
+	id : i,
+	message : Date.now()
+      });
+    }
+
+    esObject.bulkIndex("mocha_test", "mocha_type", data);
+
+    esObject.on('error', handleError);
+
+    esObject.on('done', proceedAhead);
+
   });
 });
 
