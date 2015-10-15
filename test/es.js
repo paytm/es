@@ -125,12 +125,12 @@ describe("ES wrapper thread pool check", function () {
   });
 
 
-});
+});*/
 
 
 describe("ES wrapper bulk index ", function () {
   this.timeout(20000);
-  var index = "mocha_test";
+  var index = "bill_user";
   after(function (done) {
     var requestOpts = {
       method : "DELETE",
@@ -150,7 +150,7 @@ describe("ES wrapper bulk index ", function () {
       }
     });
 
-    var data = [];
+    //var data = [];
 
     function handleError (error) {
       console.log("Error occurred while bulk indexing" , error);
@@ -160,24 +160,26 @@ describe("ES wrapper bulk index ", function () {
       console.log("Its time .....");
       done();
     }
+     var data = '{"update":{"_index":"bill_user","_type":"product","_id":"10"}}\n';
+   data += '{"doc":{"vidur":"khanna"},"doc_as_upsert":true}\n';
 
-    for (var i = 0 ; i < 40; i ++ ) {
+    /*for (var i = 0 ; i < 40; i ++ ) {
       data.push({
 	id : i,
 	message : Date.now()
       });
-    }
+    }*/
 
-    esObject.bulkIndex("mocha_test", "mocha_type", data, {operation: "update", upsert: true});
+    esObject.bulkIndex("bill_user", "product", data, {operation: "update", upsert: true});
 
     esObject.on('error', handleError);
     esObject.on('done', proceedAhead);
 
   });
-});*/
+});
 
 
-describe("Es wrapper Scan and scroll", function () {
+/*describe("Es wrapper Scan and scroll", function () {
   var esObject;
   this.timeout(2000);
   
@@ -234,4 +236,4 @@ describe("Es wrapper Scan and scroll", function () {
     esObject.on('error', handleError);
     esObject.on('end', proceedAhead);
   });
-});
+});*/
