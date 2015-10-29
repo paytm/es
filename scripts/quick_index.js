@@ -6,8 +6,8 @@ var es = require('../lib/es.js');
 var scanIndex = '';
 var scanType = '';
 
-
-var query = {"query":{"filtered":{"query":{"match_all":{}},"filter":{"nested":{"path":"variants","filter":{"bool":{"must":[{"terms":{"variants.category_id":["5030"]}}]}}}}}}};
+// Custom json for scan and scroll
+var query = '';
 
 var esScanClient = new es({
   requestOpts : {
