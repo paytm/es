@@ -51,7 +51,7 @@ esBulkClient.on('error', function (error) {
 });
 
 esBulkClient.on('done', function () {
-  esScanClient.instantiateScroll();
+  esScanClient.scroll();
 });
 
 
