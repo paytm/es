@@ -34,9 +34,9 @@ function indexData (data){
       "data" : x._source
     });
   });
-
-  esScanClient.scroll();
-  esBulkClient.bulkIndex(scanIndex, scanType,formattedData, {operation : "update", upsert : true});
+  setTimeout(function () {
+    esBulkClient.bulkIndex(scanIndex, scanType,formattedData, {operation : "update", upsert : true});
+  }, 5000);
 }
 
 esScanClient.setQuery([scanIndex, scanType, "_search"].join('/'), query);
