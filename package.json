@@ -24,7 +24,8 @@
     "lodash": "~3.8.0",
     "q": "~1.4.1",
     "graceful-fs": "~4.1.2",
-    "validator": "~4.0.6"
+    "validator": "~4.0.6",
+    "lgr": "git+ssh://git@github.com:paytm/lgr.git"
   },
   "devDependencies": {
     "should": "^6.0.3",

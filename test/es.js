@@ -146,7 +146,7 @@ describe("ES wrapper bulk index ", function () {
   it("Should bulk index", function (done) {
     var esObject = new es({
       requestOpts : {
-	host : "http://localhost:9200"
+        host : "http://localhost:9200"
       }
     });
 
