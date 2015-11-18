@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "~2.8.1",
-    "request": "*",
+    "request": "~2.64.0",
     "moment": "~2.10.2",
     "lodash": "~3.8.0",
     "q": "~1.4.1",
